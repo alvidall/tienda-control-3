@@ -8,9 +8,10 @@
  <!-- formulario_registro.html -->
 
  <h1>Registro de cliente</h1>
-    
+ 
  <!-- Formulario de registro de cliente -->
- <form id="formulario-registro" class="row g-3 needs-validation" novalidate>
+ <form id="formulario-registro" class="row g-3 needs-validation" method="post" novalidate>
+    {% csrf_token %}
      <div class="container-fluid">
          <div class="row">
              <!-- Campos del formulario -->
@@ -127,7 +128,7 @@
      </div>
  </form>
   
-
+ {% csrf_token %}
 
 {% block script %}
   <script src="{% static 'core/js/registrarme.js' %}"></script>

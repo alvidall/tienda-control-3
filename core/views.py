@@ -144,33 +144,38 @@ def registrarme(request):
      return render(request, 'core/registrarme.html', context)
 @login_required
 def misdatos(request):
+    usuario = request.user
+    perfil = usuario.perfil
 
     if request.method == 'POST':
+        form_usuario = UsuarioForm(request.POST, instance=usuario)
+        form_perfil = RegistroPerfilForm(request.POST, request.FILES, instance=perfil)
         
-        # CREAR: un formulario UsuarioForm para recuperar datos del formulario asociados al usuario actual
-        # CREAR: un formulario RegistroPerfilForm para recuperar datos del formulario asociados al perfil del usuario actual
-        # CREAR: lógica para actualizar los datos del usuario
-        pass
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            form_usuario.save()
+            form_perfil.save()
+            messages.success(request, 'Tus datos han sido actualizados.')
+            return redirect('misdatos')
+        else:
+            messages.error(request, 'Por favor corrige los errores en el formulario.')
 
-    if request.method == 'GET':
-
-        # CREAR: un formulario UsuarioForm con los datos del usuario actual
-        # CREAR: un formulario RegistroPerfilForm con los datos del usuario actual
-        pass
+    else:
+        form_usuario = UsuarioForm(instance=usuario)
+        form_perfil = RegistroPerfilForm(instance=perfil)
     
-    # CREAR: variable de contexto para enviar formulario de usuario y perfil
-    context = { }
-
+    context = {
+        'form_usuario': form_usuario,
+        'form_perfil': form_perfil
+    }
+    
     return render(request, 'core/misdatos.html', context)
 
 @login_required
 def boleta(request, nro_boleta):
-
-    # CREAR: lógica para ver la boleta
-    
-    # CREAR: variable de contexto para enviar boleta y detalle de la boleta
-    context = { }
-
+    boleta = get_object_or_404(Boleta, nro_boleta=nro_boleta)
+    context = {
+        'boleta': boleta,
+    }
     return render(request, 'core/boleta.html', context)
 
 
@@ -179,8 +184,10 @@ def ventas(request):
     # CREAR: lógica para ver las ventas
 
     # CREAR: variable de contexto para enviar historial de ventas
-    context = { }
-
+    historial = Boleta.objects.all()  # Obtén todas las boletas, ajusta según tu modelo y filtros necesarios
+    context = {
+        'historial': historial,
+    }
     return render(request, 'core/ventas.html', context)
 
 @user_passes_test(es_personal_autenticado_y_activo)
@@ -222,26 +229,60 @@ def productos(request, accion, id):
 def usuarios(request, accion, id):
     
     # CREAR: variables de usuario y perfil
+    form_usuario = None
+    form_perfil = None
 
     if request.method == 'POST':
-
         # CREAR: un formulario UsuarioForm para recuperar datos del formulario asociados al usuario
+        if id != '0':
+            usuario = get_object_or_404(User, pk=id)
+            form_usuario = UsuarioForm(request.POST, instance=usuario)
+        else:
+            form_usuario = UsuarioForm(request.POST)
+        
         # CREAR: un formulario PerfilForm para recuperar datos del formulario asociados al perfil del usuario
+        if id != '0':
+            perfil = get_object_or_404(Perfil, user_id=id)
+            form_perfil = PerfilForm(request.POST, request.FILES, instance=perfil)
+        else:
+            form_perfil = PerfilForm(request.POST, request.FILES)
+        
         # CREAR: lógica para actualizar los datos del usuario
-        pass
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            usuario = form_usuario.save()
+            perfil = form_perfil.save(commit=False)
+            perfil.user = usuario
+            perfil.save()
+            return redirect('usuarios', 'crear', '0')
     
     if request.method == 'GET':
-
         if accion == 'eliminar':
             # CREAR: acción de eliminar un usuario
-            pass
+            usuario = get_object_or_404(User, pk=id)
+            usuario.delete()
+            return redirect('usuarios', 'crear', '0')
         else:
             # CREAR: un formulario UsuarioForm asociado al usuario
+            if id != '0':
+                usuario = get_object_or_404(User, pk=id)
+                form_usuario = UsuarioForm(instance=usuario)
+            else:
+                form_usuario = UsuarioForm()
+
             # CREAR: un formulario PerfilForm asociado al perfil del usuario
-            pass
+            if id != '0':
+                perfil = get_object_or_404(Perfil, user_id=id)
+                form_perfil = PerfilForm(instance=perfil)
+            else:
+                form_perfil = PerfilForm()
 
     # CREAR: variable de contexto para enviar el formulario de usuario, formulario de perfil y todos los usuarios
-    context = { }
+    usuarios = User.objects.all()
+    context = {
+        'form_usuario': form_usuario,
+        'form_perfil': form_perfil,
+        'usuarios': usuarios,
+    }
 
     return render(request, 'core/usuarios.html', context)
 
@@ -293,12 +334,6 @@ def eliminar_producto_en_bodega(request, bodega_id):
 
     return redirect(bodega)
 
-def ventas(request):
-    historial = Boleta.objects.all()  # Obtén todas las boletas, ajusta según tu modelo y filtros necesarios
-    context = {
-        'historial': historial,
-    }
-    return render(request, 'core/ventas.html', context)
 
 @user_passes_test(es_cliente_autenticado_y_activo)
 def miscompras(request):

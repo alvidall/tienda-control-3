@@ -78,6 +78,7 @@ class RegistroPerfilForm(ModelForm):
             'direccion': forms.Textarea(attrs={'class': 'form-control'}),
             'imagen': forms.FileInput(attrs={'class': 'form-control'}),
         }
+        
 
 # PARA LA PAGINA MIS DATOS Y MANTENEDOR DE USUARIOS:
 # Crear UsuarioForm como una clase que hereda de ModelForm
@@ -87,14 +88,16 @@ class RegistroPerfilForm(ModelForm):
 class UsuarioForm(ModelForm):
    class Meta:
         model = User
-        fields = '__all__'
+        fields = ['username', 'first_name', 'last_name', 'email']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
-
+        labels = {
+            'email': 'E-mail',
+                }
 # PARA LA PAGINA MANTENEDOR DE USUARIOS:
 # Crear PerfilForm como una clase que hereda de ModelForm
 # asocialo con el modelo Perfil
@@ -106,7 +109,7 @@ class UsuarioForm(ModelForm):
 class PerfilForm(ModelForm):
     class Meta:
         model = Perfil
-        fields = '__all__'
+        fields = ['tipo_usuario', 'rut', 'direccion', 'subscrito', 'imagen']
         widgets = {
             'rut': forms.TextInput(attrs={'class': 'form-control'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),

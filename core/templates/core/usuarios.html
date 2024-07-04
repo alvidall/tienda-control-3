@@ -5,25 +5,23 @@
 {% block content %}
   <form id="form" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-
-    <div class="instrucciones-para-el-alumno">
-      INSTRUCCIONES PARA EL ALUMNO (ELIMINALO DESPUES DE LEERLO):<br>
-      - Construye tu tabla de usuarios, pero puedes usar los campos sugeridos. <br>
-    </div>
-
+    
+    <!-- Formulario de usuario -->
     {{ form_usuario|as_bootstrap_form }}
+    
+    <!-- Formulario de perfil -->
     {{ form_perfil|as_bootstrap_form }}
 
-    <!-- AREA DE CUADRO DE IMAGEN: Imagen de perfil (VER COMENTARIO "CUADRO DE IMAGEN" en script.js) -->
+    <!-- Área de cuadro de imagen: Imagen de perfil -->
     {% if form_perfil.imagen.value %}
-      <img id="cuadro-imagen" src="/media/{{ form_perfil.imagen.value }}">
+      <img id="cuadro-imagen" src="/media/{{ form_perfil.imagen.value }}" alt="Imagen de perfil">
     {% else %}
-      <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}">
+      <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" alt="Sin imagen disponible">
     {% endif %}
     <br><br>
     <input type="file" id="id_imagen" name="imagen" onchange="previewImage(event)" style="display: none;">
         
-    <!-- AREA DE BOTONES -->
+    <!-- Área de botones -->
     <div class="mt-2 text-center">
       <button type="submit" class="btn btn-primary"> Guardar </button>
       <a href="{% url 'usuarios' 'crear' '0' %}" class="btn btn-primary"> Nuevo </a>
@@ -35,7 +33,7 @@
     </div>
   </form>
 
-  <!-- AREA DE TABLA DE USUARIOS -->
+  <!-- Área de tabla de usuarios -->
   {% if usuarios %}
     <table id="tabla-principal" class="table table-hover">
       <thead>
@@ -64,7 +62,7 @@
           <td>{{ usuario.perfil.rut }}</td>
           <td>{% if usuario.perfil.subscrito %} Sí {% else %} No {% endif %}</td>
           <td>
-            <img src="/media/{{ usuario.perfil.imagen }}" class="usuario-sm" alt="">
+            <img src="/media/{{ usuario.perfil.imagen }}" class="usuario-sm" alt="Imagen de perfil">
           </td>
           <td>
             <div class="btn-group">

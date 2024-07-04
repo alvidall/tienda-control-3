@@ -3,35 +3,15 @@
 {% load custom_filters %}
 
 {% block content %}
-
-    {% comment %} 
-    
-    {% if boleta %} 
-    
-    {% endcomment %}
-    
+    {% if boleta %}
         <div class="row">
             <div class="col-6 text-right">
                 <h1>
-
-                    Boleta N° 
-                    
-                    boleta.nro_boleta 
-                    
-                    de 
-                    
-                    boleta.cliente.usuario.first_name
-                    boleta.cliente.usuario.last_name
-
+                    Boleta N° {{ boleta.nro_boleta }} de {{ boleta.cliente.usuario.first_name }} {{ boleta.cliente.usuario.last_name }}
                 </h1>
             </div>
             <div class="col-6">
-
-                <div class="instrucciones-para-el-alumno">
-                    INSTRUCCIONES PARA EL ALUMNO (ELIMINALO DESPUES DE LEERLO):<br>
-                    - Pega tu código html de estados de la boleta
-                </div>
-
+                
                 <table class="mb-3" style="float: right">
                     <tr>
                         <td class="td_img_estado_boleta"> 
@@ -47,18 +27,17 @@
                     <tr>
                         <td class="td_fec_estado_boleta"> 
                             Vendido <br> 
-                            boleta.fecha_venta|formatear_fecha
+                            {{ boleta.fecha_venta|formatear_fecha }}
                         <td class="td_fec_estado_boleta"> 
                             Despachado <br> 
-                            boleta.fecha_despacho|formatear_fecha
+                            {{ boleta.fecha_despacho|formatear_fecha }}
                         <td class="td_fec_estado_boleta"> 
                             Entregado <br> 
-                            boleta.fecha_entrega|formatear_fecha
+                            {{ boleta.fecha_entrega|formatear_fecha }}
                     </tr>
                 </table>
             </div>
         </div>
-
 
         <div class="instrucciones-para-el-alumno">
             INSTRUCCIONES PARA EL ALUMNO (ELIMINALO DESPUES DE LEERLO):<br>
@@ -67,27 +46,41 @@
               que encerrarlos entre dobles llaves "{{" y usar el filtro
         </div>
 
-        item.bodega.producto.categoria.nombre  <br>
-        item.bodega.producto.nombre  <br>
-        item.precio|formatear_dinero  <br>
-        item.descuento_subscriptor|formatear_porcentaje  <br>
-        item.descuento_oferta|formatear_porcentaje  <br>
-        item.descuento_total|formatear_porcentaje  <br>
-        item.descuentos|formatear_dinero  <br>
-        item.precio_a_pagar|formatear_dinero  <br>
-    
-        boleta.monto_sin_iva|formatear_dinero  <br>
-        boleta.iva|formatear_dinero  <br>
-        boleta.total_a_pagar|formatear_dinero  <br>
-
-    {% comment %} 
-    
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Categoría </th>
+                    <th> Producto </th>
+                    <th> Precio </th>
+                    <th> Descuento Subscripción </th>
+                    <th> Descuento Oferta </th>
+                    <th> Descuento Total </th>
+                    <th> Descuentos </th>
+                    <th> Precio a Pagar </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in boleta.items %}
+                <tr>
+                    <td>{{ item.bodega.producto.categoria.nombre }}</td>
+                    <td>{{ item.bodega.producto.nombre }}</td>
+                    <td>{{ item.precio|formatear_dinero }}</td>
+                    <td>{{ item.descuento_subscriptor|formatear_porcentaje }}</td>
+                    <td>{{ item.descuento_oferta|formatear_porcentaje }}</td>
+                    <td>{{ item.descuento_total|formatear_porcentaje }}</td>
+                    <td>{{ item.descuentos|formatear_dinero }}</td>
+                    <td>{{ item.precio_a_pagar|formatear_dinero }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div>
+            <p>Monto sin IVA: {{ boleta.monto_sin_iva|formatear_dinero }}</p>
+            <p>IVA: {{ boleta.iva|formatear_dinero }}</p>
+            <p>Total a pagar: {{ boleta.total_a_pagar|formatear_dinero }}</p>
+        </div>
     {% else %}
-
         <h1> No se puede mostrar la boleta </h1>
-
-    {% endif %} 
-    
-    {% endcomment %}
-    
+    {% endif %}
 {% endblock content %}
