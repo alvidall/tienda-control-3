@@ -88,95 +88,95 @@ def poblar_bd(test_user_email=''):
     eliminar_tablas()
 
     crear_usuario(
-        username='cevans',
+        username='Hcavill',
         tipo='Cliente', 
-        nombre='Chris', 
+        nombre='Henry', 
         apellido='Evans', 
-        correo=test_user_email if test_user_email else 'cevans@marvel.com', 
+        correo=test_user_email if test_user_email else 'Hcavill@marvel.com', 
         es_superusuario=False, 
         es_staff=False, 
         rut='25.747.200-0',	
         direccion='123 Main Street, Los Angeles, \nCalifornia 90001 \nEstados Unidos', 
         subscrito=True, 
-        imagen='perfiles/cevans.jpg')
+        imagen='perfiles/HenryCavill.jpg')
 
     crear_usuario(
-        username='eolsen',
+        username='Auron',
         tipo='Cliente', 
-        nombre='Elizabeth', 
-        apellido='Olsen', 
-        correo=test_user_email if test_user_email else 'eolsen@marvel.com', 
+        nombre='Raúl', 
+        apellido='Álvarez', 
+        correo=test_user_email if test_user_email else 'auron@marvel.com', 
         es_superusuario=False, 
         es_staff=False, 
         rut='12.202.357-5', 
         direccion='Albert Street, New York, \nNew York 10001 \nEstados Unidos', 
         subscrito=True, 
-        imagen='perfiles/eolsen.jpg')
+        imagen='perfiles/auron.jpg')
 
     crear_usuario(
-        username='tholland',
+        username='gnewell',
         tipo='Cliente', 
-        nombre='Tom', 
-        apellido='Holland', 
-        correo=test_user_email if test_user_email else 'tholland@marvel.com', 
+        nombre='Gave', 
+        apellido='Newell', 
+        correo=test_user_email if test_user_email else 'gnewell@marvel.com', 
         es_superusuario=False, 
         es_staff=False, 
         rut='11.991.600-3', 
         direccion='105 Apple Park Way, \nCupertino, CA 95014 \nEstados Unidos', 
         subscrito=False, 
-        imagen='perfiles/tholland.jpg')
+        imagen='perfiles/gave newell.jpg')
 
     crear_usuario(
-        username='sjohansson',
+        username='Xokas',
         tipo='Cliente', 
-        nombre='Scarlett', 
-        apellido='Johansson', 
-        correo=test_user_email if test_user_email else 'sjohansson@marvel.com', 
+        nombre='Joaquin', 
+        apellido='Dominguez', 
+        correo=test_user_email if test_user_email else 'xokas@marvel.com', 
         es_superusuario=False, 
         es_staff=False, 
         rut='16.469.725-8', 
         direccion='350 5th Ave, \nNew York, NY 10118 \nEstados Unidos', 
         subscrito=False, 
-        imagen='perfiles/sjohansson.jpg')
+        imagen='perfiles/xokas.jpg')
 
     crear_usuario(
-        username='cpratt',
+        username='Kreeves',
         tipo='Administrador', 
-        nombre='Chris', 
-        apellido='Pratt', 
-        correo=test_user_email if test_user_email else 'cpratt@marvel.com', 
+        nombre='Keanu', 
+        apellido='Reeves', 
+        correo=test_user_email if test_user_email else 'kreeves@marvel.com', 
         es_superusuario=False, 
         es_staff=True, 
         rut='19.441.980-5', 
         direccion='10 Pine Road, Miami, \nFlorida 33101 \nEstados Unidos', 
         subscrito=False, 
-        imagen='perfiles/cpratt.jpg')
+        imagen='perfiles/Keanu reeves.webp')
     
     crear_usuario(
-        username='mruffalo',
+        username='Rubius',
         tipo='Administrador', 
-        nombre='Mark', 
-        apellido='Ruffalo', 
-        correo=test_user_email if test_user_email else 'mruffalo@marvel.com', 
+        nombre='Rubén', 
+        apellido='Doblas', 
+        correo=test_user_email if test_user_email else 'rubius@marvel.com', 
         es_superusuario=False, 
         es_staff=True, 
         rut='21.708.052-5', 
         direccion='1600 Pennsylvania Avenue NW, \nWashington, D.C. \nEstados Unidos', 
         subscrito=False, 
-        imagen='perfiles/mruffalo.jpg')
+        imagen='perfiles/rubius.jpg')
 
     crear_usuario(
         username='super',
         tipo='Superusuario',
-        nombre='Robert',
-        apellido='Downey Jr.',
-        correo=test_user_email if test_user_email else 'rdowneyjr@marvel.com',
+        nombre='Alejandro',
+        apellido='Vidal',
+        correo=test_user_email if test_user_email else 'al.vidall@marvel.com',
         es_superusuario=True,
         es_staff=True,
         rut='13.029.317-4',
         direccion='15 Oak Street, Los Angeles, \nCalifornia 90001 \nEstados Unidos',
         subscrito=False,
-        imagen='perfiles/rdowneyjr.jpg')
+        imagen='perfiles/illojuan.jpg')
     
     categorias_data = [
         { 'id': 1, 'nombre': 'Acción'},
